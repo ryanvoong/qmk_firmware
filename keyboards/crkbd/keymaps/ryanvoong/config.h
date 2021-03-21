@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define TAPPING_FORCE_HOLD
 #define TAPPING_TERM 200
+#define IGNORE_MOD_TAP_INTERRUPT_PER_KEY
 
 // Disable these features since they aren't compatible with link-time optimization.
 #define NO_ACTION_MACRO

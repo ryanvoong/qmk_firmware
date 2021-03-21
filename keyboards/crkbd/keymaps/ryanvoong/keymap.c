@@ -18,12 +18,17 @@ extern uint8_t is_master;
 #define _ADJUST 3
 
 #define KY_CESC  CTL_T(KC_ESC)
-#define KY_CENT  CTL_T(KC_ENT)
 #define KY_SSPC  SFT_T(KC_SPC)
-#define KY_PTAB  LSFT(LCTL(KC_TAB))
-#define KY_NTAB  LCTL(KC_TAB)
+#define KY_CENT  CTL_T(KC_ENT)
+#define KY_SLBR  SFT_T(KC_LBRC)
+#define KY_SRBR  SFT_T(KC_RBRC)
 #define KY_BACK  LCMD(KC_LBRC)
 #define KY_FWD   LCMD(KC_RBRC)
+#define KY_PTAB  LSFT(LCTL(KC_TAB))
+#define KY_NTAB  LCTL(KC_TAB)
+#define KY_PWSP  LCTL(KC_LEFT)
+#define KY_NWSP  LCTL(KC_RIGHT)
+#define KY_MCTL  LCTL(KC_UP)
 #define KY_PREV  LALT(KC_LEFT)
 #define KY_NEXT  LALT(KC_RIGHT)
 #define KY_BEGIN LCMD(KC_LEFT)
@@ -51,7 +56,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KY_CESC,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_RSFT,\
+      KY_SLBR,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KY_SRBR,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_LCMD,   LOWER, KY_SSPC,    KY_CENT,   RAISE,  KC_RALT \
                                       //`--------------------------'  `--------------------------'
@@ -61,11 +66,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_LOWER] = LAYOUT( \
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX, KC_HOME, KC_PGUP, KY_BACK,  KY_FWD, XXXXXXX,                      KY_PREV, KY_NEXT,KY_BEGIN,  KY_END,  KY_TOP, XXXXXXX,\
+      XXXXXXX, KC_HOME, KC_PGUP, KY_PWSP, KY_NWSP, KY_MCTL,                     KY_BEGIN, KY_PREV, KY_NEXT,  KY_END,  KY_TOP, XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX,  KC_END, KC_PGDN, KY_PTAB, KY_NTAB, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, KY_BOTM, XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
+      XXXXXXX, XXXXXXX, XXXXXXX, KY_BACK,  KY_FWD, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______, _______, _______,    _______, _______, _______ \
                                       //`--------------------------'  `--------------------------'
@@ -96,13 +101,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   )
 };
 
+/*
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    case KY_SSPC:
-      return TAPPING_TERM + 100;
-    default:
-      return TAPPING_TERM;
-  }
+    switch (keycode) {
+        case KY_SSPC:
+            return TAPPING_TERM + 100;
+        default:
+            return TAPPING_TERM;
+    }
+}
+*/
+
+bool get_ignore_mod_tap_interrupt(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case KY_SSPC:
+            return true;
+        default:
+            return false;
+    }
 }
 
 int RGB_current_mode;
